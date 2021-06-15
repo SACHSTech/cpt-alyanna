@@ -33,6 +33,24 @@ public class Stat {
     private int personalFouls = 0;
     private int points = 0;
 
+    public Stat(String player, 
+                    int gamesPlayed, 
+                    int points, 
+                    int totalRebound, 
+                    int assists, 
+                    int steals, 
+                    int turnovers) {
+        
+        this.player = player;
+        this.gamesPlayed = gamesPlayed;
+        this.points = points;
+        this.totalRebound = totalRebound;
+        this.assists = assists;
+        this.steals = steals;
+        this.turnovers = turnovers;
+
+    }
+
     public int getRank() {
         return this.rank;
     }
@@ -273,21 +291,4 @@ public class Stat {
         this.points = points;
     }
 
-    public Stat(String player, 
-                    int gamesPlayed, 
-                    int points, 
-                    int totalRebound, 
-                    int assists, 
-                    int steals, 
-                    int turnovers) {
-        
-        this.player = player;
-        this.gamesPlayed = gamesPlayed;
-        this.points = points;
-        this.totalRebound = totalRebound;
-        this.assists = assists;
-        this.steals = steals;
-        this.turnovers = turnovers;
-
-    }
 }
