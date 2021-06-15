@@ -1,5 +1,8 @@
 package project;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -95,6 +98,28 @@ public class GameInfo extends Application {
         playerStats.add(new Stat("Irving", 64, 2400, 120, 434, 33, 121));
         playerStats.add(new Stat("James", 65, 2300, 120, 333, 44, 133));
         playerStats.add(new Stat("Doncic", 63, 2200, 120, 443, 66, 123));
+
+        return playerStats;
+    }
+
+    private ObservableList<Stat> getPlayerStatsFromCsv() {
+        ObservableList<Stat> playerStats = FXCollections.observableArrayList();
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("nbaplayerstats.csv"));
+    
+            String[] names = reader.readLine().split(",");
+            String line = "";
+
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(","); 
+            }
+    
+            reader.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return playerStats;
     }
