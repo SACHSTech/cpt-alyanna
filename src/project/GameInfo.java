@@ -75,7 +75,7 @@ public class GameInfo extends Application {
         turnoversColumn.setCellValueFactory(new PropertyValueFactory<>("turnovers"));
 
         TableView<Stat> table = new TableView<>();
-        table.setItems(getPlayerStats());
+        table.setItems(getPlayerStatsFromCsv());
         table.getColumns().addAll(playerColumn, 
                                     gamesPlayedColumn,
                                     pointsColumn,
@@ -106,13 +106,38 @@ public class GameInfo extends Application {
         ObservableList<Stat> playerStats = FXCollections.observableArrayList();
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("nbaplayerstats.csv"));
+            BufferedReader reader = new BufferedReader(new FileReader("src/project/nbaplayerstats.csv"));
     
             String[] names = reader.readLine().split(",");
+            System.out.println(names[1]);
+            System.out.println(names[5]);
+            System.out.println(names[29]);
+            System.out.println(names[23]);
+            System.out.println(names[24]);
+            System.out.println(names[25]);
+            System.out.println(names[27]);
+
             String line = "";
 
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(","); 
+
+                try {
+
+                    String player = data[1];
+
+                    int gamesPlayed = Integer.parseInt(data[5]);
+                    int points = Integer.parseInt(data[29]);
+                    int rebounds = Integer.parseInt(data[23]);
+                    int assists = Integer.parseInt(data[24]);
+                    int steals = Integer.parseInt(data[25]);
+                    int turnovers = Integer.parseInt(data[27]);
+
+                    playerStats.add(new Stat(player, gamesPlayed, points, rebounds, assists, steals, turnovers));
+            
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
     
             reader.close();
