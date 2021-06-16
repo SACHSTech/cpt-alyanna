@@ -16,6 +16,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -83,6 +85,13 @@ public class GameInfo extends Application {
                                     assistsColumn, 
                                     stealsColumn, 
                                     turnoversColumn);
+
+        table.setOnMouseClicked((MouseEvent event) -> {
+            if(event.getClickCount() == 2) {
+                System.out.println(table.getSelectionModel().getSelectedItem());
+                DetailBox.display(table.getSelectionModel().getSelectedItem());
+            }
+        });
         
         VBox root = new VBox();
         root.getChildren().addAll(label, tb, btn, table);
@@ -136,6 +145,7 @@ public class GameInfo extends Application {
                     playerStats.add(new Stat(player, gamesPlayed, points, rebounds, assists, steals, turnovers));
             
                 } catch (Exception ex) {
+                    System.out.println("player " + data[1]);
                     ex.printStackTrace();
                 }
             }
