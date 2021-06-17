@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 
 public class GameInfo extends Application {
 
+    private int[] totalByPosition = new int[] {0, 0, 0, 0, 0};
 
     public static void main(String[] args) {
         launch(args);
@@ -54,7 +55,7 @@ public class GameInfo extends Application {
  
             @Override
             public void handle(ActionEvent event) {
-                PieChartBox.display(null);
+                PieChartBox.display(totalByPosition);
             }
         });
 
@@ -120,16 +121,6 @@ public class GameInfo extends Application {
         primaryStage.show();     
     }
     
-    private ObservableList<Stat> getPlayerStats() {
-        ObservableList<Stat> playerStats = FXCollections.observableArrayList();
-        playerStats.add(new Stat("Curry", 67, 2500, 120, 300, 56, 100));
-        playerStats.add(new Stat("Durant", 66, 2200, 100, 150, 44, 111));
-        playerStats.add(new Stat("Irving", 64, 2400, 120, 434, 33, 121));
-        playerStats.add(new Stat("James", 65, 2300, 120, 333, 44, 133));
-        playerStats.add(new Stat("Doncic", 63, 2200, 120, 443, 66, 123));
-
-        return playerStats;
-    }
 
     private ObservableList<Stat> getPlayerStatsFromCsv() {
         ObservableList<Stat> playerStats = FXCollections.observableArrayList();
@@ -154,6 +145,7 @@ public class GameInfo extends Application {
                 try {
 
                     String player = data[1];
+                    String position = data[2];
 
                     int gamesPlayed = Integer.parseInt(data[5]);
                     int points = Integer.parseInt(data[29]);
@@ -163,13 +155,41 @@ public class GameInfo extends Application {
                     int turnovers = Integer.parseInt(data[27]);
 
                     playerStats.add(new Stat(player, gamesPlayed, points, rebounds, assists, steals, turnovers));
+
+                    if (position.length() > 2 ) {
+                        position = position.substring(0, 2);
+                        System.out.println(position);
+                    }
+
+                    switch (position) {
+                        case "PG" :
+                            totalByPosition[0] = totalByPosition[0] + points;
+                            break; 
+                        case "SG" :
+                            totalByPosition[1] = totalByPosition[1] + points;
+                            break;
+                        case "SF" :
+                            totalByPosition[2] = totalByPosition[2] + points;
+                            break;
+                        case "PF" :
+                            totalByPosition[3] = totalByPosition[3] + points;
+                            break;
+                        case "C" :
+                            totalByPosition[4] = totalByPosition[4] + points;
+                            break;
+                        case "C-" :
+                            totalByPosition[4] = totalByPosition[4] + points;
+                            break;
+                        default:
+                            break;
+                    }
             
                 } catch (Exception ex) {
                     System.out.println("player " + data[1]);
                     ex.printStackTrace();
                 }
             }
-    
+
             reader.close();
 
         } catch (Exception e) {
