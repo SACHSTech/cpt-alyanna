@@ -47,6 +47,26 @@ public class GameInfo extends Application {
                 System.out.println("Hello World!");
             }
         });
+
+        Button chartBtn = new Button();
+        chartBtn.setText("Chart Button");
+        chartBtn.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                PieChartBox.display(null);
+            }
+        });
+
+        Button closeBtn = new Button();
+        closeBtn.setText("Close");
+        closeBtn.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                primaryStage.close();
+            }
+        });
         
         TableColumn<Stat, String> playerColumn = new TableColumn<>("Player");
         playerColumn.setMinWidth(200);
@@ -94,7 +114,7 @@ public class GameInfo extends Application {
         });
         
         VBox root = new VBox();
-        root.getChildren().addAll(label, tb, btn, table);
+        root.getChildren().addAll(label, tb, btn, table, chartBtn, closeBtn);
 
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();     

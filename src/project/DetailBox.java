@@ -16,8 +16,27 @@ public class DetailBox {
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Player Info");
         window.setMinWidth(400);
+
         Label label = new Label();
         label.setText(stat.getPlayer());
+
+        Label gamesPlayedLabel = new Label();
+        gamesPlayedLabel.setText("Games Played: " + stat.getGamesPlayed() + "");
+
+        Label pointsLabel = new Label();
+        pointsLabel.setText("Points: " + stat.getPoints() + "");
+
+        Label reboundsLabel = new Label();
+        reboundsLabel.setText("Rebounds: " + stat.getTotalRebound() + "");
+
+        Label assistsLabel = new Label();
+        assistsLabel.setText("Assists: " + stat.getAssists() + "");
+
+        Label stealsLabel = new Label();
+        stealsLabel.setText("Steals: " + stat.getSteals() + "");
+
+        Label turnoversLabel = new Label();
+        turnoversLabel.setText("Turnovers: " + stat.getTurnovers() + "");
 
         Button closeButton = new Button("Close");
         closeButton.setOnAction(e -> {
@@ -25,7 +44,15 @@ public class DetailBox {
         });
 
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(label, closeButton);
+        layout.getChildren().addAll(label, 
+                                    gamesPlayedLabel, 
+                                    pointsLabel, 
+                                    reboundsLabel, 
+                                    assistsLabel, 
+                                    stealsLabel, 
+                                    turnoversLabel, 
+                                    closeButton);
+
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout);
         window.setScene(scene);
