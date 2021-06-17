@@ -6,6 +6,8 @@ import java.io.FileReader;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -26,6 +28,9 @@ import javafx.stage.Stage;
 public class GameInfo extends Application {
 
     private int[] totalByPosition = new int[] {0, 0, 0, 0, 0};
+    private ObservableList<Stat> playerStats = FXCollections.observableArrayList();
+    private TextField tb = new TextField();
+    private TableView<Stat> table = new TableView<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -33,21 +38,10 @@ public class GameInfo extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("2020/2021 NBA Player Stats");
 
        //Controls to be added to the HBox
        Label label = new Label("Player Name:");
-       TextField tb = new TextField();
-
-        Button btn = new Button();
-        btn.setText("Search");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
- 
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
 
         Button chartBtn = new Button();
         chartBtn.setText("Chart Button");
@@ -97,8 +91,10 @@ public class GameInfo extends Application {
         turnoversColumn.setMinWidth(100);
         turnoversColumn.setCellValueFactory(new PropertyValueFactory<>("turnovers"));
 
-        TableView<Stat> table = new TableView<>();
-        table.setItems(getPlayerStatsFromCsv());
+        loadData();
+        filterData();
+
+        //table.setItems(playerStats);
         table.getColumns().addAll(playerColumn, 
                                     gamesPlayedColumn,
                                     pointsColumn,
@@ -122,21 +118,12 @@ public class GameInfo extends Application {
     }
     
 
-    private ObservableList<Stat> getPlayerStatsFromCsv() {
-        ObservableList<Stat> playerStats = FXCollections.observableArrayList();
+    private void loadData() {
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader("src/project/nbaplayerstats.csv"));
     
             String[] names = reader.readLine().split(",");
-            System.out.println(names[1]);
-            System.out.println(names[5]);
-            System.out.println(names[29]);
-            System.out.println(names[23]);
-            System.out.println(names[24]);
-            System.out.println(names[25]);
-            System.out.println(names[27]);
-
             String line = "";
 
             while ((line = reader.readLine()) != null) {
@@ -195,8 +182,39 @@ public class GameInfo extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
-        return playerStats;
+    public void filterData() {      
+        
+        FilteredList<Stat> filteredData = new FilteredList<>(playerStats, b -> true);
+		
+		tb.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(stat -> {
+				
+                //if search field is empty, show record
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				
+				String lowerCaseFilter = newValue.toLowerCase();
+				
+                //if search field matches, show record
+				if (stat.getPlayer().toLowerCase().indexOf(lowerCaseFilter) != -1 ) {
+					return true;
+				}
+
+                //hide if not matching
+				return false;
+			});
+		});
+		 
+		SortedList<Stat> sortedData = new SortedList<>(filteredData);
+		
+		sortedData.comparatorProperty().bind(table.comparatorProperty());
+		
+		table.setItems(sortedData);
+               
+        
     }
 
 }
