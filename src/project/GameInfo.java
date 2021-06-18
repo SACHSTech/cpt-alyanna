@@ -45,7 +45,7 @@ public class GameInfo extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("2020/2021 NBA Player Stats");
 
-       Label label = new Label("Search Player:");
+        Label label = new Label("Search Player:");
 
         //button to open window to the pie chart
         Button chartBtn = new Button();
@@ -165,7 +165,13 @@ public class GameInfo extends Application {
                     int steals = Integer.parseInt(data[25]);
                     int turnovers = Integer.parseInt(data[27]);
 
-                    playerStats.add(new Stat(player, gamesPlayed, points, rebounds, assists, steals, turnovers));
+                    Stat stat = new Stat(player, gamesPlayed, points, rebounds, assists, steals, turnovers);
+
+                    stat.setRank(Integer.parseInt(data[0]));
+                    stat.setTeam(data[4]);
+                    stat.setGamesStarted(Integer.parseInt(data[6]));
+
+                    playerStats.add(stat);
 
                     if (position.length() > 2 ) {
                         position = position.substring(0, 2);
