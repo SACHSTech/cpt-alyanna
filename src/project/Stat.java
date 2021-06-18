@@ -1,5 +1,11 @@
 package project;
 
+/**
+ * 
+ * A value object class that contains the data for each player.
+ * @author Alyanna Santos
+ * 
+ */
 public class Stat {
 
     private int rank = 0;
@@ -48,7 +54,6 @@ public class Stat {
         this.assists = assists;
         this.steals = steals;
         this.turnovers = turnovers;
-
     }
 
     public int getRank() {

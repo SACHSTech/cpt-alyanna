@@ -18,18 +18,23 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * This is the main class of the application. 
+ * It will launch the main window. 
+ * @author Alyanna Santos
+ * 
+ */
 public class GameInfo extends Application {
 
     private int[] totalByPosition = new int[] {0, 0, 0, 0, 0};
     private ObservableList<Stat> playerStats = FXCollections.observableArrayList();
-    private TextField tb = new TextField();
+    private TextField textField = new TextField();
     private TableView<Stat> table = new TableView<>();
 
     public static void main(String[] args) {
@@ -40,11 +45,11 @@ public class GameInfo extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("2020/2021 NBA Player Stats");
 
-       //Controls to be added to the HBox
-       Label label = new Label("Player Name:");
+       Label label = new Label("Search Player:");
 
+        //button to open window to the pie chart
         Button chartBtn = new Button();
-        chartBtn.setText("Chart Button");
+        chartBtn.setText("Chart");
         chartBtn.setOnAction(new EventHandler<ActionEvent>() {
  
             @Override
@@ -53,6 +58,7 @@ public class GameInfo extends Application {
             }
         });
 
+        //button to close window
         Button closeBtn = new Button();
         closeBtn.setText("Close");
         closeBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -109,15 +115,33 @@ public class GameInfo extends Application {
                 DetailBox.display(table.getSelectionModel().getSelectedItem());
             }
         });
+
+        HBox topLayout = new HBox();
+        topLayout.setAlignment(Pos.BOTTOM_CENTER);
+        topLayout.setSpacing(5);
+        topLayout.getChildren().addAll(label, textField);
+
+        HBox bottomLayout = new HBox();
+        bottomLayout.setAlignment(Pos.BOTTOM_CENTER);
+        bottomLayout.setSpacing(5);
+        bottomLayout.getChildren().addAll(chartBtn, closeBtn);
         
         VBox root = new VBox();
-        root.getChildren().addAll(label, tb, btn, table, chartBtn, closeBtn);
+        root.setSpacing(10);
+        root.getChildren().addAll(topLayout, table, bottomLayout);
 
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();     
     }
-    
 
+    private void generateWindow() {
+        
+    }
+    
+    /**
+     * Loads data from the csv file.
+     * It also calculates the total points per position.
+     */
     private void loadData() {
 
         try {
@@ -184,11 +208,14 @@ public class GameInfo extends Application {
         }
     }
 
+    /**
+     * Adds a listener to filter the data while entering value in the text box. 
+     */
     public void filterData() {      
         
         FilteredList<Stat> filteredData = new FilteredList<>(playerStats, b -> true);
 		
-		tb.textProperty().addListener((observable, oldValue, newValue) -> {
+		textField.textProperty().addListener((observable, oldValue, newValue) -> {
 			filteredData.setPredicate(stat -> {
 				
                 //if search field is empty, show record

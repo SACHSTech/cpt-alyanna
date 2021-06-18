@@ -12,6 +12,12 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * Generates window that displays a pie chart of total points grouped by position.
+ * @author Alyanna Santos
+ * 
+ */
 public class PieChartBox {
 
     public static void display(int[] totalByPosition) {

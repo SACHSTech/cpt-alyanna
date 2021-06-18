@@ -8,6 +8,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * Generates the window that pops up and displays the detailed statistics of a player.
+ * @author Alyanna Santos
+ * 
+ */
 public class DetailBox {
 
     public static void display(Stat stat) {
